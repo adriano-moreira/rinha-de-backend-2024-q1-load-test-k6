@@ -1,0 +1,13 @@
+{
+  "name": "rinha-de-backend-2024-q1-load-test-k6",
+  "version": "1.0.0",
+  "description": "Port do teste de carga da rinha-backend-2024-q1 para o grafana/k6",
+  "scripts": {
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/k6": "^0.49.1"
+  }
+}
