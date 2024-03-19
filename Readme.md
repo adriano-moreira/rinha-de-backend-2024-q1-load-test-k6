@@ -16,7 +16,7 @@ Existe um script que executa via docker o k6 com os testes usando a mesma url da
 ```
 Executa 3 cenários simultaneamente credito/debito/extrato durante 4 minutos iniciando com 1 usuário para cada teste
 
-Durante a execução dos testes além do console, é possível acompanhar tem tempo real pelo navegador no [web dashboard](http://127.0.0.1:5665)
+Durante a execução dos testes além do console, é possível acompanhar em tempo real pelo navegador no [web dashboard](http://127.0.0.1:5665)
 ![image](img/web-dasboard.png)
 
 

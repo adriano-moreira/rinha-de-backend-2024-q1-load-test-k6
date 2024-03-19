@@ -1,9 +1,9 @@
 // @ts-check
 
-import { check } from 'k6';
-import http from 'k6/http';
+import { check } from 'k6'
+import http from 'k6/http'
 
-export const numRequests = 25;
+export const numRequests = 25
 
 
 const baseUrl = 'http://localhost:9999'

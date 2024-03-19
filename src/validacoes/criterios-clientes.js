@@ -91,11 +91,11 @@ function testarCriteriosCliente(id, limite) {
     const batchReq = Array(5).fill({
         method: 'GET',
         url: `${baseUrl}/clientes/${id}/extrato`,
-    });
+    })
     const batchResp = http.batch(batchReq)
     batchResp.forEach(resp => {
-        const body = resp.body;
-        if(typeof body != 'string') return;
+        const body = resp.body
+        if(typeof body != 'string') return
         const json = JSON.parse(body)
         check(json, {
             '[0] descricao': (json) => json.ultimas_transacoes[0].descricao == 'danada',
