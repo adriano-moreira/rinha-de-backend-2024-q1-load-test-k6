@@ -1,0 +1,82 @@
+// @ts-check
+
+import { check, fail } from 'k6'
+import http from 'k6/http'
+
+const urlBase = 'http://localhost:9999'
+
+/**
+ * @param {Number|String} clienteId
+ * @param {Object} payload
+ * @param {Number} payload.valor
+ * @param {String} payload.tipo
+ * @param {String} payload.descricao
+ */
+export function postTransacao(clienteId, payload) {
+    const post = http.post(
+        `${urlBase}/clientes/${clienteId}/transacoes`, JSON.stringify(payload),
+        {
+            responseType: 'text',
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        },
+    )
+    if (post.status != 200) {
+        console.error(`params: ${clienteId} ${JSON.stringify(payload, null, 4)}`)
+        console.error(`http-status: ${post.status}`)
+        console.error(`body: ${post.body}`)
+        fail()
+    }
+    return post
+}
+
+/**
+ *
+ * @param {Number|String} clienteId
+ */
+export function getExtrato(clienteId) {
+    return http.get(
+        `${urlBase}/clientes/${clienteId}/extrato`,
+        {
+            responseType: 'text',
+        },
+    )
+}
+
+
+export default function () {
+    const tipo = 'c'
+    for (let clienteId = 1; clienteId <= 5; clienteId++) {
+        for (let i = 1; i <= 10; i++) {
+            const post = postTransacao(
+                clienteId,
+                {
+                    valor: i,
+                    tipo: tipo,
+                    descricao: `desc ${i}`,
+                },
+            )
+            check(post, { 'deve retornar 200': (post) => post.status === 200 })
+        }
+        const resp = getExtrato(clienteId);
+        check(resp, { 'extrato deve retornar 200': (resp) => resp.status === 200 })
+    }
+}
+
+
+/**
+ * @typedef { import("k6/options").Options} Options
+ * @type {Options}
+ */
+export const options = {
+    vus: 20,
+    duration: '20s',
+}
+
+
+export function handleSummary(data) {
+  return {
+    'summary.json': JSON.stringify(data, null, 4),
+  }
+}
